@@ -1,0 +1,11 @@
+--2015-11-19 16:33:39--  http://localhost:8080/
+Resolving localhost (localhost)... ::1, 127.0.0.1
+Connecting to localhost (localhost)|::1|:8080... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 202 [application/json]
+Saving to: 'index.html'
+
+     0K                                                       100% 23.0M=0s
+
+2015-11-19 16:33:39 (23.0 MB/s) - 'index.html' saved [202/202]
+
