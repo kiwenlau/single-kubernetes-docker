@@ -13,11 +13,13 @@
 **2. 启动Kubernetes**
 
 ```sh
-git clone https://github.com/kiwenlau/kubernetes-cluster-docker
-cd kubernetes-cluster-docker/
+git clone https://github.com/kiwenlau/single-kubernetes-docker
+cd single-kubernetes-docker/
 sudo chmod +x start-kubernetes.sh 
 sudo ./start-kubernetes.sh 
 ```
+
+运行结束后进入kubectl容器
 
 **3. 测试kubernetes**
 
