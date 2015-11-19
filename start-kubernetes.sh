@@ -59,11 +59,11 @@ sudo docker run -d --net=host --privileged --name="proxy" kiwenlau/kubernetes:1.
 
 
 # Run kubectl container
-#echo "Starting kubectl container..."
-#sudo docker run --net=host -id -v /var/run/docker.sock:/var/run/docker.sock --name="kubectl" kiwenlau/kubernetes:1.0.7 bash 
+echo "Starting kubectl container..."
+sudo docker run --net=host -id -v /var/run/docker.sock:/var/run/docker.sock --name="kubectl" kiwenlau/kubernetes:1.0.7 bash 
 
 # Get into kubectl container
-#sudo docker exec -it kubectl bash
+sudo docker exec -it kubectl bash
 
                             
 
