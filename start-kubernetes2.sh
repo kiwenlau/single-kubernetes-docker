@@ -30,7 +30,7 @@ sudo docker run --link apiserver:apiserver -d -v /var/run/docker.sock:/var/run/d
                                                                                                                   
 # Run kubelet container
 echo "Starting kubelet container..."
-sudo docker run --link apiserver:apiserver -p 4194 -p 10250 -p 10255 -d -v /var/run/docker.sock:/var/run/docker.sock --name="kubelet" kiwenlau/kubernetes:1.0.7 kubelet \
+sudo docker run --link apiserver:apiserver -p 4194 -p 10250 -p 10255 -d -v /var/run/docker.sock:/var/run/docker.sock --name="kubelet"  kiwenlau/kubernetes:1.0.7 kubelet \
                                                                                                    --api_servers=http://apiserver:8080 \
                                                                                                    --v=2 \
                                                                                                    --address=0.0.0.0 \
@@ -47,7 +47,7 @@ sudo docker run -d --link apiserver:apiserver --privileged --name="proxy" kiwenl
 
 #Run kubectl container
 echo "Starting kubectl container..."                                                                 
-sudo docker run -e "KUBERNETES_MASTER=http://apiserver:8080" --link apiserver:apiserver -id -v /var/run/docker.sock:/var/run/docker.sock --name="kubectl" kiwenlau/kubernetes:1.0.7 bash 
+sudo docker run --link apiserver:apiserver -e "KUBERNETES_MASTER=http://apiserver:8080" --name="kubectl" --hostname="kubectl" -id kiwenlau/kubernetes:1.0.7 bash 
 
 sudo docker exec -it kubectl bash
 
