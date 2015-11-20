@@ -4,6 +4,12 @@
 
 - ectd版本: 2.2.1
 
+运行环境:
+
+- ubuntu:
+- kernel:
+- docker:
+
 ##运行步骤
 
 **1. 安装Docker**
@@ -50,20 +56,12 @@ kubectl get pod
 当NAME为nginx的pod状态变为running时，可以通过kubectl describe命令获取其IP
 
 ```
-kubectl describe pods/nginx
+kubectl describe pods/nginx | grep IP
 ```
 
 输出如下，可知NAME为niginx的pod的IP为**172.17.0.2**
 
-```
-Name:			nginx
-Namespace:		default
-Image(s):		nginx
-Node:			127.0.0.1/127.0.0.1
-Labels:			<none>
-Status:			Running
-Reason:				
-Message:			
+```		
 IP:				172.17.0.2
 ```
 

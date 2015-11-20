@@ -11,22 +11,17 @@ sudo docker run -p 8080 -p 6443 --link etcd:etcd -d --name="apiserver" kiwenlau/
                                                                                                     --service-cluster-ip-range=10.0.0.1/24 \
                                                                                                     --insecure-bind-address=0.0.0.0 \
                                                                                                     --etcd_servers=http://etcd:4001 \
-                                                                                                    --cluster_name=kubernetes \
-                                                                                                    --v=2
+                                                                                                    --cluster_name=kubernetes 
 
 sleep 10
 
 # Run controller-manager container
 echo "Starting controller-manager container..."
-sudo docker run --link apiserver:apiserver -d --name="controller-manager" kiwenlau/kubernetes:1.0.7 kube-controller-manager \
-                                                                                                                                     --master=http://apiserver:8080 \
-                                                                                                                                     --v=2                                                                                                     
+sudo docker run --link apiserver:apiserver -d --name="controller-manager" kiwenlau/kubernetes:1.0.7 kube-controller-manager --master=http://apiserver:8080                                                                           
 
 # Run scheduler container
 echo "Starting scheduler container..."
-sudo docker run --link apiserver:apiserver -d --name="scheduler" kiwenlau/kubernetes:1.0.7 kube-scheduler \
-                                                                                                                   --master=http://apiserver:8080 \
-                                                                                                                   --v=2 
+sudo docker run --link apiserver:apiserver -d --name="scheduler" kiwenlau/kubernetes:1.0.7 kube-scheduler --master=http://apiserver:8080 
                                                                                                                   
 # Run kubelet container
 echo "Starting kubelet container..."
@@ -41,9 +36,7 @@ sudo docker run --link apiserver:apiserver -p 4194 -p 10250 -p 10255 -d -v /var/
                                                                                                    
 # Run proxy container
 echo "Starting proxy container..."
-sudo docker run -d --link apiserver:apiserver --privileged --name="proxy" kiwenlau/kubernetes:1.0.7 kube-proxy \
-                                                                    --master=http://apiserver:8080 \
-                                                                    --v=2 
+sudo docker run -d --link apiserver:apiserver --privileged --name="proxy" kiwenlau/kubernetes:1.0.7 kube-proxy --master=http://apiserver:8080 
 
 #Run kubectl container
 echo "Starting kubectl container..."                                                                 
