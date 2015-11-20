@@ -29,8 +29,7 @@ sudo docker run -d --link apiserver:apiserver -p 4194 -p 10250 -p 10255 -v /var/
                                                                                                    --address=0.0.0.0 \
                                                                                                    --hostname_override=127.0.0.1 \
                                                                                                    --cluster_dns=10.0.0.10 \
-                                                                                                   --cluster_domain="kubernetes.local" \
-                                                                                                   --config=/etc/kubernetes/manifests 
+                                                                                                   --cluster_domain="kubernetes.local" 
                                                                                                    
 # Run proxy container
 echo "Starting proxy container..."
