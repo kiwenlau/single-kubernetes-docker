@@ -59,16 +59,16 @@ kubectl get pod
 kubectl describe pods/nginx | grep IP
 ```
 
-输出如下，可知NAME为niginx的pod的IP为**172.17.0.2**
+输出如下，可知NAME为niginx的pod的IP为**172.17.0.9**
 
 ```		
-IP:				172.17.0.2
+IP:				172.17.0.9
 ```
 
 测试nginx
 
 ```
-wget -qO- 172.17.0.2
+wget -qO- 172.17.0.9
 ```
 
 输出
