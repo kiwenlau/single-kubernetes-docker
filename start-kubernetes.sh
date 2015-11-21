@@ -1,13 +1,13 @@
 # Run ectd container
 echo "Starting ectd container..."
-sudo docker run -d -p 4001 -p 7001 -p 2379 -p 2380 --name="etcd" quay.io/coreos/etcd:v2.2.1 \
+sudo docker run -d --name="etcd" quay.io/coreos/etcd:v2.2.1 \
                                                  --addr=127.0.0.1:4001 \
                                                  --bind-addr=0.0.0.0:4001 \
                                                  --data-dir=/var/etcd/data 
 
 # Run apiserver container
 echo "Starting apiserver container..."
-sudo docker run -d -p 8080 -p 6443 --link etcd:etcd --name="apiserver" kiwenlau/kubernetes:1.0.7 kube-apiserver \
+sudo docker run -d --link etcd:etcd --name="apiserver" kiwenlau/kubernetes:1.0.7 kube-apiserver \
                                                                                                     --service-cluster-ip-range=10.0.0.1/24 \
                                                                                                     --insecure-bind-address=0.0.0.0 \
                                                                                                     --etcd_servers=http://etcd:4001
@@ -24,7 +24,7 @@ sudo docker run -d --link apiserver:apiserver --name="scheduler" kiwenlau/kubern
                                                                                                                   
 # Run kubelet container
 echo "Starting kubelet container..."
-sudo docker run -d --link apiserver:apiserver --pid=host -p 4194 -p 10250 -p 10255 --privileged -v /var/run/docker.sock:/var/run/docker.sock --name="kubelet"  kiwenlau/kubernetes:1.0.7 kubelet \
+sudo docker run -d --link apiserver:apiserver --pid=host --privileged -v /var/run/docker.sock:/var/run/docker.sock --name="kubelet"  kiwenlau/kubernetes:1.0.7 kubelet \
                                                                                                    --api_servers=http://apiserver:8080 \
                                                                                                    --address=0.0.0.0 \
                                                                                                    --hostname_override=127.0.0.1 \
