@@ -24,7 +24,7 @@ sudo docker run -d --link apiserver:apiserver --name="scheduler" kiwenlau/kubern
                                                                                                                   
 # Run kubelet container
 echo "Starting kubelet container..."
-sudo docker run -d --link apiserver:apiserver --pid=host --privileged -v /var/run/docker.sock:/var/run/docker.sock --name="kubelet"  kiwenlau/kubernetes:1.0.7 kubelet \
+sudo docker run -d --link apiserver:apiserver --pid=host -v /var/run/docker.sock:/var/run/docker.sock --name="kubelet"  kiwenlau/kubernetes:1.0.7 kubelet \
                                                                                                    --api_servers=http://apiserver:8080 \
                                                                                                    --address=0.0.0.0 \
                                                                                                    --hostname_override=127.0.0.1 \
