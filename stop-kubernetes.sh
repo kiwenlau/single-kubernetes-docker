@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # delete all containers of Kubernetes cluster
 sudo docker rm -f kubectl
 sudo docker rm -f proxy

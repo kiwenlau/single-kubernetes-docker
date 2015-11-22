@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Run ectd container
 echo "Starting ectd container..."
 sudo docker run -d --name="etcd" quay.io/coreos/etcd:v2.2.1 \

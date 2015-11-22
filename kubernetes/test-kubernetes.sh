@@ -1,3 +1,5 @@
+#!/bin/bash
+
 kubectl create -f pod-nginx.yaml
 
 sleep 10
