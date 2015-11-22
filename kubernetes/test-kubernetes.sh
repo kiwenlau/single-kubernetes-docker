@@ -2,8 +2,19 @@
 
 kubectl create -f pod-nginx.yaml
 
-sleep 10
+while [[ true ]]; do
+	nginxPod=`kubectl get pods/nginx | grep Running`
+	if [[ $nginxPod ]]; then
+		echo "nginx pod is running"
+		break
+	fi
+done
 
-nginxIP=`kubectl describe pods/nginx | grep IP` 
-
-IP=${nginxIP:}
+while [[ 1 ]]; do
+	nginxIP=`kubectl describe pods/nginx | grep IP`
+	IP=${nginxIP:7}
+	if [[ "$IP" ]]; then
+		wget -qO- $IP
+		break
+	fi
+done
