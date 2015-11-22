@@ -1,16 +1,29 @@
 #基于Docker快速搭建单机版Kuberntes
 
-- Kubernetes版本: 1.0.7
 
-- ectd版本: 2.2.1
+##1. 基本信息
 
-运行环境:
+GitHub地址: [https://github.com/kiwenlau/single-kubernetes-docker](https://github.com/kiwenlau/single-kubernetes-docker)
 
-- ubuntu:
-- kernel:
-- docker:
+博客地址:
 
-##运行步骤
+kiwenlau/kubernetes:1.0.7镜像版本信息:
+
+- ubuntu: 14.04
+- Kubernetes: 1.0.7
+- ectd: 2.2.1
+
+Ubuntu主机版本信息:
+
+- ubuntu: 14.04.3 LTS
+- kernel: 3.16.0-30-generic
+- docker: 1.9.1
+
+##2. 镜像简介
+
+
+
+##3. 运行步骤
 
 **1. 安装Docker**
 
