@@ -7,3 +7,4 @@ ADD install-kubernetes.sh /tmp/install-kubernetes.sh
 RUN sh /tmp/install-kubernetes.sh
 
 ADD pod-nginx.yaml /root/pod-nginx.yaml
+ADD test-kubernetes.sh /root/test-kubernetes.sh
