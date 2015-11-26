@@ -79,8 +79,8 @@ sudo docker pull index.alauda.cn/kiwenlau/etcd:v2.2.1
 ```sh
 git clone https://github.com/kiwenlau/single-kubernetes-docker
 cd single-kubernetes-docker/
-sudo chmod +x start-kubernetes.sh 
-sudo ./start-kubernetes.sh 
+sudo chmod +x start-kubernetes-alauda.sh
+sudo ./start-kubernetes-alauda.sh
 ```
 
 运行结束后进入kubectl容器。容器主机名为kubeclt。
