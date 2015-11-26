@@ -19,7 +19,23 @@ Ubuntu主机版本信息:
 - kernel: 3.16.0-30-generic
 - docker: 1.9.1
 
-##2. 镜像简介
+##2. Kubernetes简介
+
+2006年，Google工程师Rohit Seth发起了Cgroups项目。Cgroups是容器实现CPU，内存等资源隔离的基础，由此可知Google很早就涉足容器技术。而事实上，Google使用容器技术已经长达十年，目前谷歌所有业务包括搜索，Gmail，MapReduce等均运行在容器之中。Google内部使用的集群管理系统--Borg，堪称其容器技术的瑞士军刀。
+
+2014年，Google发起了开源容器集群管理系统--Kubernetes，其设计之初就吸取了Borg的经验和教训，并原生支持了Docker。因此，Kubernetees与较早的集群管理系统Mesos和YARN相比，提供了更多灵活的机制实现高可用等底层功能，使开发者可以专注于开发应用。
+
+与其他集群系统一致，Kubernetes也采用了Master/Slave结构。下表显示了Kubernetes的组件及其功能。
+
+| 角色     | 组件               | 功能  |
+| ------- |:-----------------: | :--------------------------------------------:|
+| Master  | apiserver          | 提供RESTful接口                               |
+| Master  | scheduler          | 负责调度，将pod分配到Slave节点                  |
+| Master  | controller-manager | 负责Master的其他功能                           |
+| Master  | etde               | 储存配置信息，节点信息，pod信息等                 |
+| Slave   | kubelet            | 负责管理Pod,容器和容器镜像                       |
+| Slave   | proxy              | 将访问Service的请求转发给对于的Pod，做一些负载均衡  |
+| 客户端   | kubectl            | 命令行工具，向apiserver发起创建Pod等请求          |
 
 
 
