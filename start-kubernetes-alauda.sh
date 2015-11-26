@@ -2,14 +2,14 @@
 
 # Run ectd container
 echo "Starting ectd container..."
-sudo docker run -d --name="etcd" index.alauda.cn/kiwenlau/coreos/etcd:v2.2.1 \
+sudo docker run -d --name="etcd" index.alauda.cn/kiwenlau/etcd:v2.2.1 \
                                       --addr=127.0.0.1:4001 \
                                       --bind-addr=0.0.0.0:4001 \
                                       --data-dir=/var/etcd/data 
 
 # Run apiserver container
 echo "Starting apiserver container..."
-sudo docker run -d --link etcd:etcd --name="apiserver" kiwenlau/kubernetes kube-apiserver \
+sudo docker run -d --link etcd:etcd --name="apiserver" index.alauda.cn/kiwenlau/kubernetes:1.0.7 kube-apiserver \
                                                          --service-cluster-ip-range=10.0.0.1/24 \
                                                          --insecure-bind-address=0.0.0.0 \
                                                          --etcd_servers=http://etcd:4001
