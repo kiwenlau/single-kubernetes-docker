@@ -1,13 +1,9 @@
 #!/bin/bash
 
-echo ""
-echo "kubectl create -f pod-nginx.yaml"
+echo -e "\nkubectl create -f pod-nginx.yaml"
 kubectl create -f pod-nginx.yaml
 
-echo ""
-
-echo "kubectl get pods/nginx"
-echo ""
+echo -e "\nkubectl get pods/nginx\n"
 
 while [[ true ]]; do
         kubectl get pods/nginx
@@ -20,17 +16,9 @@ done
 
 echo ""
 
-while [[ true ]]; do
-        nginxIP=`kubectl describe pods/nginx | grep IP`
-        IP=${nginxIP:7}
-        if [[ "$IP" ]]; then
-                echo ""
-                echo "The IP address of Nginx Pod is: $IP"
-                echo ""
-                echo "wget -qO- $IP"
-                echo ""
-                wget -qO- $IP
-                echo ""
-                break
-        fi
-done
+nginxIP=`kubectl describe pods/nginx | grep IP`
+IP=${nginxIP:7}
+echo -e "The IP address of Nginx Pod is: $IP\n"
+echo -e "wget -qO- $IP\n"
+wget -qO- $IP
+echo ""
