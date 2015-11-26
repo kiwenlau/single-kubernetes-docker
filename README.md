@@ -7,6 +7,38 @@ GitHub地址: [https://github.com/kiwenlau/single-kubernetes-docker](https://git
 
 博客地址:
 
+
+##2. Kubernetes简介
+
+2006年，Google工程师Rohit Seth发起了Cgroups项目。Cgroups是容器实现CPU，内存等资源隔离的基础，由此可见Google其实很早就开始涉足容器技术。而事实上，Google使用容器技术已经长达十年，目前谷歌所有业务包括搜索，Gmail，MapReduce等均运行在容器之中。Google内部使用的集群管理系统--Borg，堪称其容器技术的瑞士军刀。
+
+2014年，Google发起了开源容器集群管理系统--Kubernetes，其设计之初就吸取了Borg的经验和教训，并原生支持了Docker。因此，Kubernetees与较早的集群管理系统Mesos和YARN相比，提供了更多灵活的机制实现资源调度，负载均衡，高可用等底层功能，使开发者可以专注于开发应用。
+
+与其他集群系统一致，Kubernetes也采用了Master/Slave结构。下表显示了Kubernetes的各个组件及其功能。
+
+| 角色     | 组件               | 功能                                           |
+| ------- |:-----------------: | :--------------------------------------------:|
+| Master  | apiserver          | 提供RESTful接口                                |
+| Master  | scheduler          | 负责调度，将pod分配到Slave节点                   |
+| Master  | controller-manager | 负责Master的其他功能                           |
+| Master  | etde               | 储存配置信息，节点信息，pod信息等                 |
+| Slave   | kubelet            | 负责管理Pod,容器和容器镜像                       |
+| Slave   | proxy              | 将访问Service的请求转发给对于的Pod，做一些负载均衡  |
+| 客户端   | kubectl            | 命令行工具，向apiserver发起创建Pod等请求          |
+
+
+##3. Docker镜像简介
+
+下图显示了我在Ubuntu主机上运行单机版Kubernetes的架构。可知，我一共运行了7个容器，分别运行Kubernetes的各个组件。事实上，Kuberenetes未来的开发目标正是将Kubernetes的各个组件运行到容器之中，这样可以方便Kubernetes的部署和升级。现在将Kubernetes的各个组件全部运行在容器中必然存在很多未知问题，因此仅做学习测试不宜部署到生产环境中。Kubernetes各个组件容器之间的通信通过docker link实现，其中apiserver与ectd的4001端口进行通信，scheduler，controller-manager，kubelet，proxy以及kubectl与apiserver的8080端口进行通信。
+
+![alt text](https://github.com/kiwenlau/single-kubernetes-docker/raw/master/single-kubernetes-docker.png "Image Architecture")
+
+集群的大致运行流程是这样的: 用户通过kubectl命令向apiserver发起创建Pod的请求时; scheduler会将创建Pod的任务分配给kubelet；kubelet中包含了一个docker命令行工具，该工具会向Docker deamon发起创建容器的请求; Docker deamon负责下载镜像然后创建容器。
+
+我将Docker deamon运行在Ubuntu主机上，因此Docker daemon所创建的应用容器与Kubernetes各个组件的容器均运行在Ubuntu主机上。docker socket使用volume的形式挂载到kubelet容器内，因此kubelet中的docker命令行工具可以直接与主机上的Docker daemon进行通信。
+
+我是直接将kubernetes发布的各个组件的二进制可执行文件安装在/usr/local/bin目录下，因此，修改Dockerfile中的Kubernetes下载链接的版本号，就可以安装其他版本的Kubernetes。另外，仅需修改网络配置，就可以在多个节点上部署Kubernetes。
+
 kiwenlau/kubernetes:1.0.7镜像版本信息:
 
 - ubuntu: 14.04
@@ -19,33 +51,30 @@ Ubuntu主机版本信息:
 - kernel: 3.16.0-30-generic
 - docker: 1.9.1
 
-##2. Kubernetes简介
-
-2006年，Google工程师Rohit Seth发起了Cgroups项目。Cgroups是容器实现CPU，内存等资源隔离的基础，由此可知Google很早就涉足容器技术。而事实上，Google使用容器技术已经长达十年，目前谷歌所有业务包括搜索，Gmail，MapReduce等均运行在容器之中。Google内部使用的集群管理系统--Borg，堪称其容器技术的瑞士军刀。
-
-2014年，Google发起了开源容器集群管理系统--Kubernetes，其设计之初就吸取了Borg的经验和教训，并原生支持了Docker。因此，Kubernetees与较早的集群管理系统Mesos和YARN相比，提供了更多灵活的机制实现高可用等底层功能，使开发者可以专注于开发应用。
-
-与其他集群系统一致，Kubernetes也采用了Master/Slave结构。下表显示了Kubernetes的组件及其功能。
-
-| 角色     | 组件               | 功能  |
-| ------- |:-----------------: | :--------------------------------------------:|
-| Master  | apiserver          | 提供RESTful接口                               |
-| Master  | scheduler          | 负责调度，将pod分配到Slave节点                  |
-| Master  | controller-manager | 负责Master的其他功能                           |
-| Master  | etde               | 储存配置信息，节点信息，pod信息等                 |
-| Slave   | kubelet            | 负责管理Pod,容器和容器镜像                       |
-| Slave   | proxy              | 将访问Service的请求转发给对于的Pod，做一些负载均衡  |
-| 客户端   | kubectl            | 命令行工具，向apiserver发起创建Pod等请求          |
-
 
 
 ##3. 运行步骤
 
 **1. 安装Docker**
 
-参考: [https://docs.docker.com/](https://docs.docker.com/)
+ubuntu 14.04上安装Docker: 
 
-**2. 启动Kubernetes**
+```
+curl -fLsS https://get.docker.com/ | sh
+```
+
+其他系统请参考: [https://docs.docker.com/](https://docs.docker.com/)
+
+**2. 下载Docker镜像**
+
+我将kiwenlau/kubernetes:1.07镜像放在[灵雀云](http://www.alauda.cn/)
+
+```
+sudo docker pull index.alauda.cn/kiwenlau/kubernetes:1.0.7
+sudo docker pull index.alauda.cn/kiwenlau/etcd:v2.2.1
+```
+
+**3. 启动Kubernetes**
 
 ```sh
 git clone https://github.com/kiwenlau/single-kubernetes-docker
@@ -57,7 +86,7 @@ sudo ./start-kubernetes.sh
 运行结束后进入kubectl容器。容器主机名为kubeclt。
 
 
-**3. 测试kubernetes**
+**4. 测试kubernetes**
 
 运行测试脚本，该脚本会启动一个nginx pod。
 
@@ -95,7 +124,7 @@ Commercial support is available at
 </html>
 ```
 
-**4.关闭Kubernetes集群**
+**5.关闭Kubernetes集群**
 
 删除所有pod
 
@@ -121,3 +150,5 @@ sudo ./stop-kubernetes.sh
 1. [meteorhacks/hyperkube](https://github.com/meteorhacks/hyperkube)
 2. [meteorhacks/kube-init](https://github.com/meteorhacks/kube-init)
 3. [Kubernetes: The Future of Cloud Hosting](https://meteorhacks.com/learn-kubernetes-the-future-of-the-cloud)
+4. [Kubernetes 架构浅析](http://weibo.com/p/1001603912843031387951?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
+5. [An Introduction to Kubernetes](https://www.digitalocean.com/community/tutorials/an-introduction-to-kubernetes)
