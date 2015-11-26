@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo -e "\nkubectl create -f pod-nginx-alauda.yaml"
-kubectl create -f pod-nginx.yaml
+kubectl create -f pod-nginx-alauda.yaml
 
 echo -e "\nkubectl get pods/nginx\n"
 
