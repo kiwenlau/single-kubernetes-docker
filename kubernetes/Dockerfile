@@ -10,3 +10,6 @@ RUN sh /tmp/install-kubernetes.sh
 
 ADD pod-nginx.yaml /root/pod-nginx.yaml
 ADD test-kubernetes.sh /root/test-kubernetes.sh
+
+ADD pod-nginx-alauda.yaml /root/pod-nginx-alauda.yaml
+ADD test-kubernetes-alauda.sh /root/test-kubernetes-alauda.sh
