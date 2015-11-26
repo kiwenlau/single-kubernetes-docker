@@ -2,7 +2,7 @@
 
 # Run ectd container
 echo "Starting ectd container..."
-sudo docker run -d --name="etcd" quay.io/coreos/etcd:v2.2.1 \
+sudo docker run -d --name="etcd" kiwenlau/etcd:v2.2.1 \
                                       --addr=127.0.0.1:4001 \
                                       --bind-addr=0.0.0.0:4001 \
                                       --data-dir=/var/etcd/data 
@@ -31,7 +31,8 @@ sudo docker run -d --link apiserver:apiserver --pid=host -v /var/run/docker.sock
                                                                                                                       --address=0.0.0.0 \
                                                                                                                       --hostname_override=127.0.0.1 \
                                                                                                                       --cluster_dns=10.0.0.10 \
-                                                                                                                      --cluster_domain="kubernetes.local" 
+                                                                                                                      --cluster_domain="kubernetes.local" \
+                                                                                                                      --pod-infra-container-image="kiwenlau/pause:0.8.0"
                                                                                                    
 # Run proxy container
 echo "Starting proxy container..."
