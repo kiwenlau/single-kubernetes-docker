@@ -85,7 +85,7 @@ sudo chmod +x start-kubernetes-alauda.sh stop-kubernetes.sh
 sudo ./start-kubernetes-alauda.sh
 ```
 
-运行结束后进入kubectl容器。容器主机名为kubeclt。
+运行结束后进入kubectl容器。容器主机名为kubeclt。可以通过"exit"命令退出容器返回到主机，然后可以通过"sudo docker exec -it kubectl bash"命令再次进入kubectl容器。
 
 
 **4. 测试kubernetes**
