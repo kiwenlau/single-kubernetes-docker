@@ -53,7 +53,7 @@ Ubuntu主机版本信息:
 
 
 
-##3. 运行步骤
+##4. 运行步骤
 
 **1. 安装Docker**
 
@@ -148,9 +148,114 @@ sudo ./stop-kubernetes.sh
 ```
 
 
-##参考
+##5. 参考
 1. [meteorhacks/hyperkube](https://github.com/meteorhacks/hyperkube)
 2. [meteorhacks/kube-init](https://github.com/meteorhacks/kube-init)
 3. [Kubernetes: The Future of Cloud Hosting](https://meteorhacks.com/learn-kubernetes-the-future-of-the-cloud)
 4. [Kubernetes 架构浅析](http://weibo.com/p/1001603912843031387951?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
 5. [An Introduction to Kubernetes](https://www.digitalocean.com/community/tutorials/an-introduction-to-kubernetes)
+
+
+
+
+#Quickly run Kubernets on single host based on Docker
+
+##1. Steps to run
+
+**1. Install Docker**
+
+Install Docker on ubuntu 14.04: 
+
+```
+curl -fLsS https://get.docker.com/ | sh
+```
+
+For other OS: [https://docs.docker.com/](https://docs.docker.com/)
+
+**2. pull Docker images**
+
+I put all images in my Docker Hub repository
+
+```
+sudo docker pull kiwenlau/kubernetes:1.0.7
+sudo docker pull kiwenlau/etcd:v2.2.1
+sudo docker pull kiwenlau/nginx:1.9.7
+sudo docker pull kiwenlau/pause:0.8.0
+```
+
+**3. Start Kubernetes**
+
+```sh
+git clone https://github.com/kiwenlau/single-kubernetes-docker
+cd single-kubernetes-docker/
+sudo chmod +x start-kubernetes.sh stop-kubernetes.sh
+sudo ./start-kubernetes.sh
+```
+
+You will enter kubectl container after these commands.
+
+
+**4. Test Kubernetes**
+
+Run test script, this will start a nginx pod
+
+```
+chmod +x test-kubernetes.sh
+./test-kubernetes.sh 
+```
+
+Output:
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+```
+
+**5.Stop Kubernetes**
+
+Delete all pods
+
+```
+kubectl delete pods --all
+``` 
+
+Exit kubectl container
+
+```
+exit
+```
+
+Stop Kubernetes
+
+```
+sudo ./stop-kubernetes.sh 
+```
+
+##5. References
+1. [meteorhacks/hyperkube](https://github.com/meteorhacks/hyperkube)
+2. [meteorhacks/kube-init](https://github.com/meteorhacks/kube-init)
+3. [Kubernetes: The Future of Cloud Hosting](https://meteorhacks.com/learn-kubernetes-the-future-of-the-cloud)
+4. [An Introduction to Kubernetes](https://www.digitalocean.com/community/tutorials/an-introduction-to-kubernetes)
