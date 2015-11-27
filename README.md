@@ -67,11 +67,13 @@ curl -fLsS https://get.docker.com/ | sh
 
 **2. 下载Docker镜像**
 
-我将kiwenlau/kubernetes:1.07镜像放在[灵雀云](http://www.alauda.cn/)
+我将kiwenlau/kubernetes:1.07以及其他用到的Docker镜像都放在[灵雀云](http://www.alauda.cn/)
 
 ```
 sudo docker pull index.alauda.cn/kiwenlau/kubernetes:1.0.7
 sudo docker pull index.alauda.cn/kiwenlau/etcd:v2.2.1
+sudo docker pull index.alauda.cn/kiwenlau/nginx:1.9.7
+sudo docker pull index.alauda.cn/kiwenlau/pause:0.8.0
 ```
 
 **3. 启动Kubernetes**
@@ -91,7 +93,8 @@ sudo ./start-kubernetes-alauda.sh
 运行测试脚本，该脚本会启动一个nginx pod。
 
 ```
-./test-kubernetes.sh 
+chmod +x test-kubernetes-alauda.sh
+./test-kubernetes-alauda.sh 
 ```
 
 输出
@@ -141,7 +144,6 @@ exit
 关闭Kubernetes集群的所有容器
 
 ```
-sudo chmod +x ./stop-kubernetes.sh 
 sudo ./stop-kubernetes.sh 
 ```
 
