@@ -3,7 +3,7 @@
 
 GitHub地址: [https://github.com/kiwenlau/single-kubernetes-docker](https://github.com/kiwenlau/single-kubernetes-docker)
 
-博客地址:
+博客地址:[基于Docker快速搭建单机版Kuberntes](http://kiwenlau.com/2015/11/28/151128-single-kubernetes-docker/)
 
 
 ##1. Kubernetes简介
